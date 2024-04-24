@@ -66,18 +66,6 @@ function Download() {
                 4 UI Kit.
               </h5>
             </Col>
-            <Col md="12">
-              <Button
-                className="btn-neutral btn-round"
-                color="default"
-                href="http://creative-tim.com/product/now-ui-kit-pro-react?ref=nukr-index-page"
-                size="lg"
-                target="_blank"
-              >
-                <i className="now-ui-icons arrows-1_share-66 mr-1"></i>
-                Upgrade to PRO
-              </Button>
-            </Col>
           </Row>
           <br></br>
           <br></br>

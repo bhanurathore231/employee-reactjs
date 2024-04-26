@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
 import {
   Button,
   Card,
@@ -19,7 +20,13 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 function RegisterPage() {
   const [firstFocus, setFirstFocus] = React.useState(false);
   const [lastFocus, setLastFocus] = React.useState(false);
-  React.useEffect(() => {
+  const [usernamevalue, setUsername] = useState("");
+  const [emailvalue, setEmail] = useState("");
+  const [phonevalue, setPhone] = useState("");
+  const [passvalue, setPassword] = useState("");
+  const [fnamevalue, setFname] = useState("");
+  const [lnamevalue, setLname] = useState("");
+  useEffect(() => {
     document.body.classList.add("login-page");
     document.body.classList.add("sidebar-collapse");
     document.documentElement.classList.remove("nav-open");
@@ -30,6 +37,41 @@ function RegisterPage() {
       document.body.classList.remove("sidebar-collapse");
     };
   }, []);
+
+  const handleSubmit = async () => {
+    const name=usernamevalue
+    const fname=fnamevalue
+    const phone=phonevalue 
+    const lname=lnamevalue 
+    const pass=passvalue
+    const newemail=emailvalue  
+    const formData = new FormData();
+    formData.append('username', name);
+    formData.append('first_name', fname);
+    formData.append('phone',phone);
+    formData.append('email',newemail);
+    formData.append('last_name',lname);
+    formData.append('password',pass);
+    console.log(formData);
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify(formData);
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/apiregister", requestOptions);
+      const result = await response.text();
+      console.log(result);
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
+  };
   return (
     <>
       <ExamplesNavbar />
@@ -44,7 +86,7 @@ function RegisterPage() {
           <Container>
             <Col className="ml-auto mr-auto" md="4">
               <Card className="card-login card-plain">
-                <Form action="" className="form" method="">
+                <Form  className="form">
                   <CardHeader className="text-center">
                     <div className="logo-container">
                     <svg width="50" height="50" viewBox="0 0 250 196" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,8 +118,7 @@ function RegisterPage() {
                       <Input
                         placeholder="Username"
                         type="name"
-                        onFocus={() => setFirstFocus(true)}
-                        onBlur={() => setFirstFocus(false)}
+                        onChange={(e) => setUsername(e.target.value)}
                       ></Input>
                     </InputGroup>
                     <InputGroup
@@ -94,8 +135,7 @@ function RegisterPage() {
                       <Input
                         placeholder="Password"
                         type="password"
-                        onFocus={() => setLastFocus(true)}
-                        onBlur={() => setLastFocus(false)}
+                        onChange={(e) => setPassword(e.target.value)}
                         name="password"
                       ></Input>
                     </InputGroup>
@@ -113,8 +153,7 @@ function RegisterPage() {
                       <Input
                         placeholder="Email"
                         type="email"
-                        onFocus={() => setLastFocus(true)}
-                        onBlur={() => setLastFocus(false)}
+                        onChange={(e) => setEmail(e.target.value)}
                         name="email"
                       ></Input>
                     </InputGroup>
@@ -132,8 +171,7 @@ function RegisterPage() {
                       <Input
                         placeholder="First Name"
                         type="name"
-                        onFocus={() => setLastFocus(true)}
-                        onBlur={() => setLastFocus(false)}
+                        onChange={(e) => setFname(e.target.value)}
                         name="first-name"
                       ></Input>
                     </InputGroup>
@@ -151,8 +189,7 @@ function RegisterPage() {
                       <Input
                         placeholder="Last Name"
                         type="name"
-                        onFocus={() => setLastFocus(true)}
-                        onBlur={() => setLastFocus(false)}
+                        onChange={(e) => setLname(e.target.value)}
                         name="last-name"
                       ></Input>
                     </InputGroup>
@@ -170,8 +207,7 @@ function RegisterPage() {
                       <Input
                         placeholder="Phone"
                         type="tel"
-                        onFocus={() => setLastFocus(true)}
-                        onBlur={() => setLastFocus(false)}
+                        onChange={(e) => setPhone(e.target.value)}
                         name="phone"
                         min="10"
                         max="16"
@@ -179,13 +215,13 @@ function RegisterPage() {
                     </InputGroup>
                   </CardBody>
                   <CardFooter className="text-center">
-                    <Button
+                  <Button
                       block
                       className="btn-round"
                       color="info"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      type="button"
                       size="lg"
+                      onClick={handleSubmit}
                     >
                       Register
                     </Button>
@@ -196,7 +232,7 @@ function RegisterPage() {
                           href="#pablo"
                           onClick={(e) => e.preventDefault()}
                         >
-                          Create Account
+                          Login
                         </a>
                       </h6>
                     </div>
